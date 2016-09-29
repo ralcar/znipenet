@@ -42,7 +42,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var valueRef = firebase.database().ref('testValue');
         valueRef.on('value', snapshot => {
           
-          this.firebaseValue = snapshot.val().username;
+          this.firebaseValue = snapshot.val().username + "wee";
         });
       }
     });
