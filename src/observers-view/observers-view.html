@@ -1,0 +1,37 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../observers-data/observers-data.html">
+
+<dom-module id="observers-view">
+  <style>
+  :host {
+    display: block;
+  }
+  </style>
+  <template>
+
+    <iron-ajax
+      auto
+      url="http://localhost:19639/api/observers/"
+      handle-as="json"
+      last-response={{observers}}
+      debounce-duration="300"
+      with-credentials=true>
+    </iron-ajax>
+    123
+    <template is="dom-repeat" items="{{observers}}">
+        <div>{{item.name}}</div>
+    </template>
+
+  </template>
+  <script>
+
+  Polymer({
+
+    is: 'observers-view'
+
+  });
+
+  </script>
+
+</dom-module>

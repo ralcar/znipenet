@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="observers-data">
+  <template>
+    <iron-ajax
+      auto
+      url="http://localhost:19639/api/observermachines/"
+      handle-as="json"
+      last-response={{observers}}
+      debounce-duration="300"
+      with-credentials=true>
+    </iron-ajax>
+  </template>
+
+  <script>
+
+  Polymer({
+
+    is: 'observers-data',
+
+    properties: {
+      observers: {
+        type: Object,
+        notify:true
+      }
+    }
+
+  });
+
+  </script>
+
+</dom-module>
