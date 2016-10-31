@@ -1,0 +1,52 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../shared-styles.html">
+<dom-module id="observers-addupdate">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
+
+		<div class="card">
+			<div class="circle">{{_fbClicks}}</div>
+			<h1>Create Observer</h1>
+
+			<form is="iron-form" id="form" method="post" action="/form/handler">
+				<paper-input id="name" label="Observer name"></paper-input>
+				<paper-input id="address" label="Observer address"></paper-input>
+				<paper-button raised on-tap="_submitForm">Submit</paper-button>
+			</form>
+		</div>
+
+	</template>
+	<script>
+
+  Polymer({
+
+    is: 'observers-addupdate',
+
+		_submitForm: function() {
+
+			let observer = {
+				name: this.$.name.value,
+				address: this.$.address.value
+			}
+			let observers = firebase.database().ref('observers');
+			let newObserver = observers.push();
+
+			newObserver.set(observer);
+			
+			
+		}
+
+  });
+
+  </script>
+
+</dom-module>

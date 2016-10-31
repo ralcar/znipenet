@@ -1,0 +1,48 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../shared-styles.html">
+<dom-module id="observers-list">
+	<template>
+
+		<style include="shared-styles">
+			:host {
+				display: block;
+				padding: 10px;
+			}
+		</style>
+
+
+
+		<div class="card">
+			<template is="dom-repeat" items="{{observers}}" as="observer">
+				<div>{{observer.name}}</div>
+			</template>
+		</div>
+
+
+
+		<a href="/observers/addupdate">
+			<paper-button raised>Create new observer</paper-button>
+		</a>
+
+	</template>
+	<script>
+
+  Polymer({
+    is: 'observers-list',
+
+		properties: {
+			observers: {
+				type: Array,
+				observer: '_observersChanged'
+			}
+		},
+
+		_observersChanged: function(oldValue, newValue) {
+			console.log(oldValue, newValue);
+		}
+  });
+
+  </script>
+
+</dom-module>

@@ -7,5 +7,5 @@ gulp.task('serve', () => {
 		proxy: 'http://localhost:8080'
 	});
 
-	gulp.watch('src/*.html', reload);
+	gulp.watch('src/**/*', reload);
 });

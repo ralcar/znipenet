@@ -1,0 +1,27 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/polymerfire/polymerfire.html">
+
+<dom-module id="observers-data">
+	<template>
+
+		<firebase-query id="query" app-name="znipenet" path="/observers" data="{{observers}}"></firebase-query>
+
+	</template>
+
+	<script>
+
+  Polymer({
+
+    is: 'observers-data',
+
+    properties: {
+      observers: {
+        type: Object,
+        notify:true
+      }
+    } 
+  });
+
+  </script>
+
+</dom-module>
