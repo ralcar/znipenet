@@ -1,5 +1,9 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../shared-styles.html">
 <dom-module id="observers-list">
 	<template>
@@ -11,19 +15,29 @@
 			}
 		</style>
 
+		<template is="dom-repeat" items="{{observers}}" as="observer">
+			<div class="card">
+				<div>{{observer.name}}
+					<paper-button raised on-tap="_deleteObserver">
+						<iron-icon icon="delete"></iron-icon>
+					</paper-button>
+				</div>
 
+			</div>
+		</template>
 
-		<div class="card">
-			<template is="dom-repeat" items="{{observers}}" as="observer">
-				<div>{{observer.name}}</div>
-			</template>
-		</div>
+		<paper-dialog id="deleteObserverDialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" on-iron-overlay-closed="_handleDeleteClosed">
+			<h2>Header</h2>
+			<paper-dialog-scrollable>
+				Lorem ipsum...
+			</paper-dialog-scrollable>
+			<div class="buttons">
+				<paper-button dialog-dismiss>Cancel</paper-button>
+				<paper-button dialog-confirm autofocus>Accept</paper-button>
+			</div>
+		</paper-dialog>
 
-
-
-		<a href="/observers/addupdate">
-			<paper-button raised>Create new observer</paper-button>
-		</a>
+		<paper-fab icon="add" on-tap="_createObserver"></paper-fab>
 
 	</template>
 	<script>
@@ -32,14 +46,26 @@
     is: 'observers-list',
 
 		properties: {
-			observers: {
-				type: Array,
-				observer: '_observersChanged'
+			observers: Array,
+			selectedObserver: Object
+		},
+
+		_deleteObserver: function(e) {
+			if(e.model !== undefined) {
+				this.selectedObserver = e.model.observer; 
+				this.$.deleteObserverDialog.open();
 			}
 		},
 
-		_observersChanged: function(oldValue, newValue) {
-			console.log(oldValue, newValue);
+		_handleDeleteClosed: function(e) {
+			if(e.detail.confirmed && this.selectedObserver !== null) {
+				this.fire('observer-delete', this.selectedObserver);
+				this.selectedObserver = null;
+			}
+		},
+
+		_createObserver: function() {
+			this.fire('observer-create');
 		}
   });
 

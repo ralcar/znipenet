@@ -33,15 +33,18 @@
 
 		_submitForm: function() {
 
+			let observers = firebase.database().ref('observers');
+
+			let newObserver = observers.push();
+			
 			let observer = {
 				name: this.$.name.value,
 				address: this.$.address.value
 			}
-			let observers = firebase.database().ref('observers');
-			let newObserver = observers.push();
 
 			newObserver.set(observer);
 			
+			this.fire('observer-created');
 			
 		}
 
