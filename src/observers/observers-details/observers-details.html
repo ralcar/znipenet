@@ -1,0 +1,36 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../shared-styles.html">
+<dom-module id="observers-details">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+            
+            paper-card {
+                width: 100%;
+                padding: 16px;
+            }
+        </style>
+
+        <paper-card heading="Details">
+            <div class="card-content">
+                fdsfdsfds
+					<a href="/observers/details/1">{{observer.address}}</a>
+            </div>
+
+        </paper-card>
+
+    </template>
+    <script>
+
+  Polymer({
+
+    is: 'observers-details',
+  });
+
+  </script>
+
+</dom-module>

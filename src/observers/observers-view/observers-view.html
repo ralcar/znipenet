@@ -18,17 +18,17 @@
 				padding: 10px;
 			}
 		</style>
-
-		<app-location route="{{route}}"></app-location>
-		<app-route route="{{route}}" pattern="/observers/:view" data="{{observersRoute}}"></app-route>
+		<!--<app-location route="{{routeData}}"></app-location>-->
+		<app-route route="{{route}}" pattern="/:view" data="{{routeData}}"></app-route>
 
 		<observers-data observers="{{observers}}"></observers-data>
 
 		<neon-animated-pages selected="[[page]]" attr-for-selected="name" entry-animation='slide-from-left-animation' exit-animation='slide-right-animation'>
-			<observers-list name="list" route="{{observersRoute}}" observers="{{observers}}" on-observer-delete="_deleteObserver" on-observer-create="_navigateToCreateObserver"></observers-list>
-			<observers-addupdate name="addupdate" route="{{observersRoute}}" on-observer-created="_navigateToObservers">
-				</observer-addupdate>
-				<my-view404 name="view404"></my-view404>
+			<observers-list name="list" route="{{routeData}}" observers="{{observers}}" on-observer-delete="_deleteObserver" on-observer-create="_navigateToCreateObserver">
+			</observers-list>
+			<observers-addupdate name="addupdate" route="{{routeData}}" on-observer-created="_navigateToObservers"></observer-addupdate>
+			<observers-details name="details"></observers-details>
+			<my-view404 name="view404"></my-view404>
 		</neon-animated-pages>
 
 	</template>
@@ -38,44 +38,44 @@
 
     is: 'observers-view',
 
-		properties: {
-				page: {
-          type: String,
-          reflectToAttribute: true,
-          observer: '_pageChanged'
-        }
-      },
-
-		observers: [
-			'_routePageChanged(observersRoute.view)'
-		],
-
-		_routePageChanged: function(page) {
-			this.page = page || 'list';
+	properties: {
+		page: {
+			type: String,
+			reflectToAttribute: true,
+			observer: '_pageChanged'
 		},
+		route: Object
+	},
 
-		_pageChanged: function(page) {
-			// Load page import on demand. Show 404 page if fails
-			var resolvedPageUrl = this.resolveUrl('../observers-' + page + '/observers-' + page + '.html');
-			this.importHref(resolvedPageUrl, null, this._showPage404, true);
-		},
+	observers: [
+		'_routePageChanged(routeData.view)'
+	],
 
-		_showPage404: function() {
-        this.page = 'view404';
-      },
+	_routePageChanged: function(page) {
+		this.page = page || 'list';
+	},
 
-			_deleteObserver: function(e, observer) {
-				let ref = firebase.database().ref('/observers/' + observer.$key);
-				ref.remove();
-			},
+	_pageChanged: function(page) {
+		var resolvedPageUrl = this.resolveUrl('../observers-' + page + '/observers-' + page + '.html');
+		this.importHref(resolvedPageUrl, null, this._showPage404, true);
+	},
 
-			_navigateToCreateObserver: function() {
-				this.page = 'addupdate';
-			},
+	_showPage404: function() {
+		this.page = 'view404';
+	},
 
-			_navigateToObservers: function() {
-				this.page = 'list';
-			}
+	_deleteObserver: function(e, observer) {
+		let ref = firebase.database().ref('/observers/' + observer.$key);
+		ref.remove();
+	},
+
+	_navigateToCreateObserver: function() {
+		this.set('route.path', '/addupdate');
+	},
+
+	_navigateToObservers: function() {
+		this.set('route.path', '/list');
+	}
 
   });
 
