@@ -6,7 +6,7 @@
 <link rel="import" href="../../../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../shared-styles.html">
-<dom-module id="observers-list">
+<dom-module id="tournaments-list">
 	<template>
 
 		<style include="shared-styles">
@@ -21,23 +21,22 @@
 			}
 		</style>
 
-		<template is="dom-repeat" items="{{observers}}" as="observer">
+		<template is="dom-repeat" items="{{tournaments}}" as="tournament">
 			<paper-card
-				heading={{observer.name}}
-				image="http://lorempixel.com/400/200/city/?{{observer.name}}"
-				on-tap="_selectObserver">
-				<div class="card-content"
-				on-tap="_selectObserver">
-					{{observer.address}}
+				heading={{tournament.name}}
+				image="http://lorempixel.com/400/200/city/?{{tournament.name}}"
+				on-tap="_selectTournament">
+				<div class="card-content">
+					{{tournament.address}}
 				</div>
 				<div class="card-actions">
-					<paper-icon-button icon="delete" on-tap="_deleteObserver"></paper-icon-button>
+					<paper-icon-button icon="delete" on-tap="_deleteTournament"></paper-icon-button>
 				</div>
 			</paper-card>
 		</template>
 
-		<paper-dialog id="deleteObserverDialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" on-iron-overlay-closed="_handleDeleteClosed">
-			<h2>Delete observer</h2>
+		<paper-dialog id="deleteTournamentDialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" on-iron-overlay-closed="_handleDeleteClosed">
+			<h2>Delete tournament</h2>
 			<paper-dialog-scrollable>
 				Sure?
 			</paper-dialog-scrollable>
@@ -47,42 +46,42 @@
 			</div>
 		</paper-dialog>
 
-		<paper-fab icon="add" on-tap="_createObserver"></paper-fab>
+		<paper-fab icon="add" on-tap="_createTournament"></paper-fab>
 
 	</template>
 	<script>
 
   Polymer({
-    is: 'observers-list',
+    is: 'tournaments-list',
 
 		properties: {
-			observers: Array,
-			selectedObserver: Object
+			tournaments: Array,
+			selectedTournament: Object
 		},
 
-		_selectObserver: function(e) {
+		_selectTournament: function(e) {
 			if(e.model !== undefined) {
-				this.selectedObserver = e.model.observer;
-				this.fire('observer-selected', this.selectedObserver);	
+				this.selectedTournament = e.model.tournament;
+				this.fire('tournament-selected', this.selectedTournament);	
 			}
 		},
 
-		_deleteObserver: function(e) {
+		_deleteTournament: function(e) {
 			if(e.model !== undefined) {
-				this.selectedObserver = e.model.observer; 
-				this.$.deleteObserverDialog.open();
+				this.selectedTournament = e.model.tournament; 
+				this.$.deleteTournamentDialog.open();
 			}
 		},
 
 		_handleDeleteClosed: function(e) {
-			if(e.detail.confirmed && this.selectedObserver !== null) {
-				this.fire('observer-delete', this.selectedObserver);
-				this.selectedObserver = null;
+			if(e.detail.confirmed && this.selectedTournament !== null) {
+				this.fire('tournament-delete', this.selectedTournament);
+				this.selectedTournament = null;
 			}
 		},
 
-		_createObserver: function() {
-			this.fire('observer-create');
+		_createTournament: function() {
+			this.fire('tournament-create');
 		}
   });
 
